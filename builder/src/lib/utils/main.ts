@@ -52,5 +52,7 @@ class SvelteORM implements SvelteORMInterface {
             const typesJsonData = JSON.stringify(typesData, null, 4);
             fs.writeFileSync(this.svop_path, typesJsonData, 'utf-8');
         }
+        const datas = JSON.stringify(dataValues, null, 4);
+        fs.writeFileSync(this.svpath, datas, "utf-8");
     }
 }
