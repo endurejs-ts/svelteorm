@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import { determineType } from '$lib/tools/index.js';
 
 type TS_OR_JS = "ts" | "js";
 type nos = number | string;
@@ -33,11 +34,23 @@ class SvelteORM implements SvelteORMInterface {
     }
 
     create(dataValues: Record<nos, nos_ob>) {
-        type keyofdatavalues = keyof typeof dataValues;
-        const keyofdatavalues_impl = Object.keys(dataValues) as Array<keyofdatavalues>;
+        // values.json에 데이터를 저장
+        const jsonData = JSON.stringify(dataValues, null, 4);
+        fs.writeFileSync(this.svpath, jsonData, 'utf-8');
 
-        for (const i of keyofdatavalues_impl) {
-            console.log(i);
+        // option이 "ts"일 경우 types.json에 타입 정보를 저장
+        if (this.svoption === "ts" && this.svop_path) {
+            const typesData: Record<string, string> = {};
+
+            for (const key in dataValues) {
+                if (dataValues.hasOwnProperty(key)) {
+                    const value = dataValues[key];
+                    typesData[key] = determineType(value);
+                }
+            }
+
+            const typesJsonData = JSON.stringify(typesData, null, 4);
+            fs.writeFileSync(this.svop_path, typesJsonData, 'utf-8');
         }
     }
 }
