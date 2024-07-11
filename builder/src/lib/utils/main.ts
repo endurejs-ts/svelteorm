@@ -33,11 +33,7 @@ class SvelteORM implements SvelteORMInterface {
     }
 
     create(dataValues: Record<nos, nos_ob>) {
-        type keyofdatavalues = keyof typeof dataValues;
-        const keyofdatavalues_impl = Object.keys(dataValues) as Array<keyofdatavalues>;
-
-        for (const i of keyofdatavalues_impl) {
-            console.log(i);
-        }
+        const datas = JSON.stringify(dataValues, null, 4);
+        fs.writeFileSync(this.svpath, datas, "utf-8");
     }
 }
