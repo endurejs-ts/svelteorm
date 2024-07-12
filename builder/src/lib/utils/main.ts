@@ -5,7 +5,7 @@ type TS_OR_JS = "ts" | "js";
 type nos = number | string;
 type nos_ob = nos | object | string[] | number[] | object[];
 
-export function svelteorm({option}: {option: TS_OR_JS} = { option: "js" }): SvelteORMInterface {
+export default function svelteorm({option}: {option: TS_OR_JS} = { option: "js" }): SvelteORMInterface {
     const PATH = process.cwd();
     const R_PATH = {
         r1_path: PATH + "/dist/values.json",
